@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
         isActive: userExist.isActive,
         signature: userExist.signature,
       },
-      "ezifhaezdf74",
+      "process.env.TOKEN_KEY",
       { expiresIn: "2 days" }
     );
     return res.status(200).json({ token: token, user: userExist });

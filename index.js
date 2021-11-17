@@ -1,13 +1,15 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 // DB connection
-//mongoose.set("useNewUrlParser", true);
-//mongoose.set("useFindAndModify", false);
-//mongoose.set("useCreateIndex", true);
-//mongoose.set("useUnifiedTopology", true);
-mongoose.connect("mongodb://localhost:27017/invoice-db",{useNewUrlParser:true},{useFindAndModify:false},{useCreateIndex:true},{useUnifiedTopology:true});
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
+mongoose.connect(process.env.MONGO_DB_URI);
 mongoose.connection.on("connected", () => {
   console.log("DB connected");
 });
@@ -25,8 +27,13 @@ app.use(express.urlencoded({ extended: true }));
 //routes middlewares
 app.use("/api/auth", authRoutes);
 app.use("/api/invoices", invoiceRoutes);
+app.use(express.static("./client/build"));
+app.use("*", (req, res) => {
+  res.sendFile(path.resolve("client","build", "index.html"));
+});
+
 //server listening
-const port = 8000;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`this server is running on port ${port}`);
 });

@@ -5,7 +5,7 @@ module.exports = function (req, res, next) {
     return res.status(401).json({ err_message: "No token provided" });
   }
   try {
-    const verifiedUser = jwt.verify(token, "ezifhaezdf74");
+    const verifiedUser = jwt.verify(token,"process.env.TOKEN_KEY");
     req.verifiedUser = verifiedUser;
     next();
   } catch (err) {

@@ -23,8 +23,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //routes middlewares
-app.use("/auth", authRoutes);
-app.use("/invoices", invoiceRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/invoices", invoiceRoutes);
 //server listening
 const port = 8000;
 app.listen(port, () => {
